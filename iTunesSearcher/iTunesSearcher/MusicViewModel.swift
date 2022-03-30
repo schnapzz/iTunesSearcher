@@ -9,9 +9,17 @@ import SwiftUI
 
 class MusicViewModel: ObservableObject {
     
+    @Published var searchResults: [MusicTrack] = []
     
     // MARK: - Intents
     func search(for term: String) {
+        iTunesSearcher().fetchForTerm(term) { result, error in
+            if let err = error {
+                // TODO: Handle errors
+            }
+            print(result)
+            self.searchResults = result
+        }
          
     }
 }

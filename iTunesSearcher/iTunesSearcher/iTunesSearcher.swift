@@ -14,12 +14,31 @@ struct iTunesResponse: Codable {
 
 // The object that mirror the api
 struct MusicTrack: Codable {
-    private(set) var trackName: String?
+    private(set) var trackName: String
     private var artworkUrl100: String?
-    private(set) var artwork: URL?
-    private(set) var artistName: String?
-    private(set) var releaseDate: String?
+    var artwork: URL? {
+        get {
+            if let artworkUrl100 = artworkUrl100 {
+                return URL(string: artworkUrl100)
+            }
+            return nil
+        }
+    }
+    private(set) var artistName: String
+    private var releaseDate: String
     private(set) var shortDescription: String?
+    
+    func trackReleaseDate() -> String? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        formatter.locale = Locale(identifier: "da_DK")
+        if let date = formatter.date(from: releaseDate) {
+            let str = date.formatted(date: .numeric, time: .omitted)
+            print(str)
+            return str
+        }
+        return nil
+    }
 }
 
 struct iTunesSearcher {
