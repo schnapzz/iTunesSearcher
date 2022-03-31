@@ -2,7 +2,7 @@
 //  iTunesSearcherTests.swift
 //  iTunesSearcherTests
 //
-//  Created by 4mvideo it on 29/03/2022.
+//  Created by MMH it on 29/03/2022.
 //
 
 import XCTest
@@ -105,7 +105,7 @@ class iTunesSearcherTests: XCTestCase {
     }
     
     func testEmptySearchTermReturnsEmptry() {
-        let expectation = self.expectation(description: "iTunesSearch returns an empty list from noneexisting match")
+        let expectation = self.expectation(description: "iTunesSearch returns an empty list from empty search term")
         itunesSearcher.fetchMusicFromSearchTerm("") { result, _ in
             self.result = result
             expectation.fulfill()

@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  iTunesSearcher
 //
-//  Created by 4mvideo it on 29/03/2022.
+//  Created by MMH it on 29/03/2022.
 //
 
 import SwiftUI
@@ -44,7 +44,7 @@ struct SearchView: View {
             
                 List(musicSearcher.searchResults, id: \.trackName) { track in
                     NavigationLink {
-                        MusicTrackView(music: track)
+                        MusicTrackDetail(music: track)
                     } label: {
                         SearchResultRow(music: track)
                     }
@@ -58,6 +58,8 @@ struct SearchView: View {
 struct SearchResultRow: View {
     let music: MusicTrack
     
+    private let SQUARE_FRAME_SIZE: CGFloat = 50
+    
     var body: some View {
         HStack {
             if let artworkURL = music.artwork {
@@ -66,12 +68,12 @@ struct SearchResultRow: View {
                 } placeholder: {
                     ProgressView()
                 }
-                .frame(width: 50, height: 50)
+                .frame(width: SQUARE_FRAME_SIZE, height: SQUARE_FRAME_SIZE)
             }
             else {
                 // In the event that there's no artwork available
                 Image(systemName: "questionmark")
-                    .frame(width: 50, height: 50)
+                    .frame(width: SQUARE_FRAME_SIZE, height: SQUARE_FRAME_SIZE)
             }
             
             VStack (alignment: .leading) {

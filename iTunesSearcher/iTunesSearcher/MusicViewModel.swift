@@ -2,7 +2,7 @@
 //  MusicViewModel.swift
 //  iTunesSearcher
 //
-//  Created by 4mvideo it on 29/03/2022.
+//  Created by MMH it on 29/03/2022.
 //
 
 import SwiftUI

@@ -2,19 +2,19 @@
 //  MusicTrackView.swift
 //  iTunesSearcher
 //
-//  Created by 4mvideo it on 30/03/2022.
+//  Created by MMH it on 30/03/2022.
 //
 
 import SwiftUI
 
-struct MusicTrackView: View {
+struct MusicTrackDetail: View {
     
     let music: MusicTrack
     
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .center, spacing: 10) {
-                AsyncImage(url: music.artwork){ image in
+                AsyncImage(url: music.artwork) { image in
                     image.resizable()
                 } placeholder: {
                     ProgressView()

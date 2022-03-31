@@ -2,11 +2,12 @@
 //  Searcher.swift
 //  iTunesSearcher
 //
-//  Created by 4mvideo it on 29/03/2022.
+//  Created by MMH it on 29/03/2022.
 //
 
 import Foundation
 
+// General structure of an API response
 struct iTunesResponse: Codable {
     var resultCount: Int
     var results: [MusicTrack]
@@ -28,6 +29,7 @@ struct MusicTrack: Codable {
     private var releaseDate: String
     private(set) var shortDescription: String?
     
+    // Transforms the unix timestamp to a readable string
     func trackReleaseDate() -> String? {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
@@ -54,12 +56,13 @@ struct iTunesSearcher {
                 if response?.statusCode == SUCCESFUL_RESPONSE, let json = data {
                     let decoder = JSONDecoder()
                     let itunesResponse = try! decoder.decode(iTunesResponse.self, from: json)
+                    
                     completionHandler(itunesResponse.results, error)
                 } else {
                     completionHandler([], error)
                 }
             }
-            dataTask.resume()
+            dataTask.resume() // Required: Executes the data task
         } else {
             completionHandler([], nil)
         }
