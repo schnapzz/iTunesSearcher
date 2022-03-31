@@ -25,28 +25,24 @@ struct SearchView: View {
                         .cornerRadius(10)
                         .padding(.horizontal, 10)
                         
-                        Button("Search") {
-                            if text.count == 0 {
-                                showAlert = true
-                            } else {
-                                musicSearcher.search(for: text)
-                            }
-                        }.alert("No search terms", isPresented: $showAlert, actions: {VStack(alignment: .center, spacing:5){
-                            Text("Please enter a search term")
-                            Button("OK") {
-                                showAlert = false
-                            }
-                            }
-                        })
-                            
+                    Button("Search") {
+                        if text.count == 0 {
+                            showAlert = true
+                        } else {
+                            musicSearcher.search(for: text)
+                        }
+                    }.alert("Important message", isPresented: $showAlert) {
+                        Button("OK", role: .cancel) { }
                     }
-                    .padding(.horizontal, 10)
+                        
+                }
+                .padding(.horizontal, 10)
             
                 List(musicSearcher.searchResults, id: \.trackName) { track in
                     NavigationLink {
-                        MusicTrackView(musicTrack: track)
+                        MusicTrackView(music: track)
                     } label: {
-                        SearchResultRow(result: track)
+                        SearchResultRow(music: track)
                     }
                 }
             }
@@ -54,32 +50,34 @@ struct SearchView: View {
         }
     }
 }
+
 struct SearchResultRow: View {
-    let result: MusicTrack
+    let music: MusicTrack
     
     var body: some View {
         HStack {
-            if let albumArtUrl = result.artwork {
-                AsyncImage(url: albumArtUrl)  { image in
+            if let artworkURL = music.artwork {
+                AsyncImage(url: artworkURL)  { image in
                     image.resizable()
                 } placeholder: {
                     ProgressView()
                 }
                 .frame(width: 50, height: 50)
-            } else {
+            }
+            else {
+                // In the event that there's no artwork available
                 Image(systemName: "questionmark")
                     .frame(width: 50, height: 50)
             }
             
             VStack (alignment: .leading) {
-                Text(result.trackName)
+                Text(music.trackName)
                     .fontWeight(.heavy)
                     .frame(width: 200, height: 30, alignment: .leading)
-                Text(result.artistName)
+                Text(music.artistName)
                     .fontWeight(.light)
                     .frame(width: 200, height: 20, alignment: .leading)
             }
-            
         }
     }
 }

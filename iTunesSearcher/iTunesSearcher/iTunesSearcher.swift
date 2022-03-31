@@ -34,7 +34,6 @@ struct MusicTrack: Codable {
         formatter.locale = Locale(identifier: "da_DK")
         if let date = formatter.date(from: releaseDate) {
             let str = date.formatted(date: .numeric, time: .omitted)
-            print(str)
             return str
         }
         return nil
@@ -42,17 +41,20 @@ struct MusicTrack: Codable {
 }
 
 struct iTunesSearcher {
+    
+    private let SUCCESFUL_RESPONSE = 200
     private let baseStringUrl = "https://itunes.apple.com/search"
     
-    func fetchForTerm(_ term: String, completionHandler: @escaping ([MusicTrack], Error?) -> Void ) {
+    func fetchMusicFromSearchTerm(_ term: String, completionHandler: @escaping ([MusicTrack], Error?) -> Void ) {
         if let searchUrl = constructSearchURL(from: term) {
             let session = URLSession(configuration: .default)
             let dataTask = session.dataTask(with: searchUrl) { data, response, error in
-                
+
                 let response = response as? HTTPURLResponse
-                if response?.statusCode == 200, let json = data {
+                if response?.statusCode == SUCCESFUL_RESPONSE, let json = data {
                     let decoder = JSONDecoder()
-                    completionHandler(try! decoder.decode(iTunesResponse.self, from: json).results, error)
+                    let itunesResponse = try! decoder.decode(iTunesResponse.self, from: json)
+                    completionHandler(itunesResponse.results, error)
                 }
             }
             dataTask.resume()
