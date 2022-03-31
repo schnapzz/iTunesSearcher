@@ -55,6 +55,8 @@ struct iTunesSearcher {
                     let decoder = JSONDecoder()
                     let itunesResponse = try! decoder.decode(iTunesResponse.self, from: json)
                     completionHandler(itunesResponse.results, error)
+                } else {
+                    completionHandler([], error)
                 }
             }
             dataTask.resume()

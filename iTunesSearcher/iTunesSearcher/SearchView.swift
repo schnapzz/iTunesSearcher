@@ -31,8 +31,12 @@ struct SearchView: View {
                         } else {
                             musicSearcher.search(for: text)
                         }
-                    }.alert("Important message", isPresented: $showAlert) {
+                    }.alert("No search term. Please enter a search term to lookup music.", isPresented: $showAlert) {
                         Button("OK", role: .cancel) { }
+                    }.alert("An error occoured, please try again", isPresented: $musicSearcher.errorOccured) {
+                        Button("OK", role: .cancel) {
+                            musicSearcher.errorOccured = false
+                        }
                     }
                         
                 }

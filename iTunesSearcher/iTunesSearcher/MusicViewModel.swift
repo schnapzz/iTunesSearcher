@@ -10,14 +10,16 @@ import SwiftUI
 class MusicViewModel: ObservableObject {
     
     @Published var searchResults: [MusicTrack] = []
+    @Published var errorOccured: Bool = false
     
     // MARK: - Intents
     func search(for term: String) {
         
         iTunesSearcher().fetchMusicFromSearchTerm(term) { result, error in
-            if let err = error {
-                // TODO: Handle errors
+            if let _ = error {
+                self.errorOccured = true
             }
+            
             DispatchQueue.main.async {
                 self.searchResults = result
             }
