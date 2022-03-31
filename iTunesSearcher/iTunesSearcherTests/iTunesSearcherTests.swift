@@ -65,7 +65,7 @@ class iTunesSearcherTests: XCTestCase {
         XCTAssertNotNil(track.artistName)
         XCTAssert(track.artistName == self.validTermJJ)
         XCTAssertNotNil(track.trackName)
-        XCTAssertNotNil(track.releaseDate)
+        XCTAssertNotNil(track.trackReleaseDate)
         XCTAssertNil(track.shortDescription)
     }
     
@@ -95,6 +95,18 @@ class iTunesSearcherTests: XCTestCase {
     func testInvalidSearchReturnsEmpty() {
         let expectation = self.expectation(description: "iTunesSearch returns an empty list from noneexisting match")
         itunesSearcher.fetchMusicFromSearchTerm(invalidTerm) { result, _ in
+            self.result = result
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: SHORT_TIMEOUT, handler: nil)
+        
+        XCTAssert(result!.count == 0)
+    }
+    
+    func testEmptySearchTermReturnsEmptry() {
+        let expectation = self.expectation(description: "iTunesSearch returns an empty list from noneexisting match")
+        itunesSearcher.fetchMusicFromSearchTerm("") { result, _ in
             self.result = result
             expectation.fulfill()
         }
